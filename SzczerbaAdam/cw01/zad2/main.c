@@ -8,6 +8,9 @@
 #include <stdlib.h>
 #include <stdlib.h>
 
+#include <sys/times.h>
+#include <sys.resource.h>
+
 
 //done
 char* genRandomBlock(int blockSize){
@@ -68,35 +71,43 @@ void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
     if(strcmp(argv[*optionIndex], "search_element")){   //1 param
         (*optionIndex)++; //kolejnym argumentem jest wartosc do jakiej mamy sie zblizyc
 
-        findBlock(thisBlckArr, (int)strtol(argv[*optionIndex], NULL, 10));
+        findBlock(thisBlckArr, atoi(argv[*optionIndex]));
     }
     else if(strcmp(argv[*optionIndex], "remove")){  //2 param: startIndex i amount
         (*optionIndex)++;
-        int startIndx = (int) strtol(argv[*optionIndex], NULL, 10);
+        int startIndx = atoi(argv[*optionIndex]);
 
         (*optionIndex)++;
-        int amountOfBlcks = (int) strtol(argv[*optionIndex], NULL, 10);
+        int amountOfBlcks = atoi(argv[*optionIndex]);
 
         removeNumOfBlock(thisBlckArr, amountOfBlcks, startIndx);
     }
     else if(strcmp(argv[*optionIndex], "add")){ // 1 param: startIndex i amount
         (*optionIndex)++;
-        int startIndx = (int) strtol(argv[*optionIndex], NULL, 10);
+        int startIndx = atoi(argv[*optionIndex]);
 
         (*optionIndex)++;
-        int amountOfBlcks = (int) strtol(argv[*optionIndex], NULL, 10);
+        int amountOfBlcks = atoi(argv[*optionIndex]);
 
         addNumOfBlock(thisBlckArr, amountOfBlcks, startIndx);
     }
     else if(strcmp(argv[*optionIndex], "remove_and_add")){  // 1 param: start index i amount
         (*optionIndex)++;
-        int startIndx = (int) strtol(argv[*optionIndex], NULL, 10);
+        int startIndx =atoi(argv[*optionIndex]);
 
         (*optionIndex)++;
-        int amountOfBlcks = (int) strtol(argv[*optionIndex], NULL, 10);
+        int amountOfBlcks = atoi(argv[*optionIndex]);
 
         removeAndAddNumOfBlock(thisBlckArr, amountOfBlcks, startIndx);
     }
+}
+
+//zwraca czas w sekundach, najpierw czas poczatkowy
+long calcTimeFrom2TimevalVal( struct timeval t0, struct timeval t1){
+
+    long toRet = (t1.tv_sec-t0.tv_sec)*1000000 + t1.tv_usec-t0.tv_usec;
+
+    return toRet/1000000.0;
 }
 
 /*
@@ -109,12 +120,9 @@ int main (int argc, char* argv[]){
 
     srand(time(NULL));
 
-    int elementAmount = (int) strtol(argv[1], NULL, 10);
-    int blocksSize = (int) strtol(argv[2], NULL, 10);
+    int elementAmount = atoi(argv[1]);
+    int blocksSize = atoi(argv[2]);
     char* alocateKind = argv[3];
-
-    BlockArray* thisBlckArr = makeArray(elementAmount, blocksSize); //uwzglednij  argv[3]
-
 
     int isStatic;
     if(!(strcmp(argv[3], "static"))){ //funkcja zwraca 0 tj "falsz" gdy takie same
@@ -123,12 +131,41 @@ int main (int argc, char* argv[]){
         isStatic = 0;
     }
 
+    struct rusage tt0, tt1;
+    struct timeval t0, t1;
+
+    getrusage(RUSAGE_SELF, tt0);
+    gettimeofday(&t0, 0);
+
+
+    BlockArray* thisBlckArr = makeArray(elementAmount, blocksSize, alocateKind); //uwzglednij  argv[3]
 
     // obsluga polecen
     int i = 4;
     while(argv[i] != NULL){
         execOption(thisBlckArr, &i, argv);
     }
+
+    getrusage(RUSAGE_SELF, tt1);
+    gettimeofday(&t1, 0);
+
+
+
+    long realTime = calcTimeFrom2TimevalVal(t0, t1);
+    long userTime = calcTimeFrom2TimevalVal(tt0 -> ru_utime, tt1 -> ru_utime);
+    long systemTime = calcTimeFrom2TimevalVal(tt0 -> ru_stime, tt1 -> ru_sutime);
+
+    // sposoby zalaczania bibliotek
+
+    if(!(strcmp(argv[3], "static"))){
+        printf("tablica alokowana statycznie\n");
+    }else if(!(strcmp(argv[3], "dynamic"))){
+        printf("tablica alokowana dynamicznie\n");
+    }
+
+    ptintf("real time: %ld s, user time: %ld s, system time: %ld s\n",
+           realTime, userTime, systemTime);
+
 
     return 1;
 }
