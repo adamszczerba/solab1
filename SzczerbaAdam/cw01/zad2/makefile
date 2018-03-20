@@ -12,12 +12,12 @@ shared:
 
 staticVersion:
 	make static
-	$(CC) -Wall -o main mian.c blockarray.a -I .
+	$(CC) -Wall -o main main.c blockarray.a -I.
 	make tests
 
 sharedVersion:
 	make shared
-	$(CC) -Wall -o main mian.c -L. blockarray.so -I .
+	$(CC) -Wall -o main main.c -L. blockarray.so -I.
 	make tests
 
 

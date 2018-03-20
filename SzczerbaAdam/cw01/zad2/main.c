@@ -5,11 +5,13 @@
 #include "blockarray.h"
 #include <string.h>
 #include <time.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
-#include <sys/times.h>
-#include <sys.resource.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 
 
 //done
@@ -35,8 +37,8 @@ void fillByRandomChars( BlockArray *thisBlckArr ){
 }
 
 //done, to check
-BlockArray* createTable( int size, int blockSize ){
-    BlockArray* toRet = makeArray( size, blockSize );
+BlockArray* createTable( int size, int blockSize, int isStatic ){
+    BlockArray* toRet = makeArray( size, blockSize, isStatic );
     fillByRandomChars( toRet );
 
     return toRet;
@@ -125,20 +127,20 @@ int main (int argc, char* argv[]){
     char* alocateKind = argv[3];
 
     int isStatic;
-    if(!(strcmp(argv[3], "static"))){ //funkcja zwraca 0 tj "falsz" gdy takie same
+    if(!(strcmp(alocateKind, "static"))){ //funkcja zwraca 0 tj "falsz" gdy takie same
         isStatic = 1;
-    }else if(!(strcmp(argv[3], "dynamic"))){
+    }else if(!(strcmp(alocateKind, "dynamic"))){
         isStatic = 0;
     }
 
     struct rusage tt0, tt1;
     struct timeval t0, t1;
 
-    getrusage(RUSAGE_SELF, tt0);
-    gettimeofday(&t0, 0);
+    getrusage(RUSAGE_SELF, &tt0);
+    gettimeofday(&t0, NULL);
 
 
-    BlockArray* thisBlckArr = makeArray(elementAmount, blocksSize, alocateKind); //uwzglednij  argv[3]
+    BlockArray *thisBlckArr = makeArray(elementAmount, blocksSize, isStatic); //uwzglednij  argv[3]
 
     // obsluga polecen
     int i = 4;
@@ -146,24 +148,24 @@ int main (int argc, char* argv[]){
         execOption(thisBlckArr, &i, argv);
     }
 
-    getrusage(RUSAGE_SELF, tt1);
-    gettimeofday(&t1, 0);
+    getrusage(RUSAGE_SELF, &tt1);
+    gettimeofday(&t1, NULL);
 
 
 
     long realTime = calcTimeFrom2TimevalVal(t0, t1);
-    long userTime = calcTimeFrom2TimevalVal(tt0 -> ru_utime, tt1 -> ru_utime);
-    long systemTime = calcTimeFrom2TimevalVal(tt0 -> ru_stime, tt1 -> ru_sutime);
+    long userTime = calcTimeFrom2TimevalVal(tt0.ru_utime, tt1.ru_utime);
+    long systemTime = calcTimeFrom2TimevalVal(tt0.ru_stime, tt1.ru_stime);
 
     // sposoby zalaczania bibliotek
 
-    if(!(strcmp(argv[3], "static"))){
+    if(!(strcmp(alocateKind, "static"))){
         printf("tablica alokowana statycznie\n");
-    }else if(!(strcmp(argv[3], "dynamic"))){
+    }else if(!(strcmp(alocateKind, "dynamic"))){
         printf("tablica alokowana dynamicznie\n");
     }
 
-    ptintf("real time: %ld s, user time: %ld s, system time: %ld s\n",
+    printf("real time: %ld s, user time: %ld s, system time: %ld s\n",
            realTime, userTime, systemTime);
 
 

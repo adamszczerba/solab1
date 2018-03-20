@@ -11,7 +11,8 @@ typedef struct BlockArrayStruct{
 
 } BlockArray;
 
-BlockArray* makeArray (int amountOfBlocks, int size, int isStatic); //tworzenie nowej tablicy
+BlockArray *makeArray (int amountOfBlocks, int size, int isStatic);
+//tworzenie nowej tablicy
 
 void deleteArray (BlockArray *blckArray); //usuwanie tablicy
 
