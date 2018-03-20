@@ -1,0 +1,16 @@
+tablica alokowana statycznie
+./main 75 5000 static 
+real time: 0.009837 s, user time: 0.009839 s, system time: 0.000000 s
+
+tablica alokowana statycznie
+./main 75 5000 static search_element 1000 
+real time: 0.005479 s, user time: 0.005480 s, system time: 0.000000 s
+
+tablica alokowana statycznie
+./main 75 5000 static remove 50 25 add 50 25 
+real time: 0.004641 s, user time: 0.004642 s, system time: 0.000000 s
+
+tablica alokowana statycznie
+./main 75 5000 static remove_and_add 20 20 
+real time: 0.005725 s, user time: 0.005727 s, system time: 0.000000 s
+

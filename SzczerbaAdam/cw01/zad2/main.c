@@ -171,9 +171,15 @@ int main (int argc, char* argv[]){
         printf("tablica alokowana dynamicznie\n");
     }
 
+    for(int i = 0; i < argc; i++ ){
+        printf("%s ", argv[i]);
+    }
+    printf("\n");
+
     printf("real time: %lf s, user time: %lf s, system time: %lf s\n",
            realTime, userTime, systemTime);
+    printf("\n");
 
+    return 0;
 
-    return 1;
 }
