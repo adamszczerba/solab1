@@ -3,7 +3,7 @@ CC=gcc
 all: staticLib	sharedLib test
 
 static:
-	$(CC) -Wall -c blockarray.c
+	$(CC) -Wall -c blockarray.c -fsanitize=address -g -O0
 	ar rcs blockarray.a blockarray.o
 
 shared:
@@ -14,9 +14,9 @@ shared:
 
 staticVersion:
 	make static
-	$(CC) -Wall -c main.c
-	$(CC) -Wall -o main main.c blockarray.a -I.
-	make test
+	$(CC) -Wall -c main.c -fsanitize=address -g -O0
+	$(CC) -Wall -o main main.c blockarray.a -I. -lasan
+	make test2
 
 sharedVersion:
 	make shared
@@ -24,12 +24,14 @@ sharedVersion:
 	$(CC) -Wall -o main main.c -L. blockarray.so -I.
 	make test
 
+test2:
+	./main 75 5000 dynamic search_element 1000
 
 test:
-	./main	5000 500 static
-	./main	5000 500 static search_element 1000
-	./main	50000 5000 static remove 50 100 add 50 100
-	./main	100000	1000 static remove_and_add 500 500
+	./main	75 5000 static
+	./main	75 5000 static search_element 1000
+	./main	75 5000 static remove 50 25 add 50 25
+	./main	75 5000 static remove_and_add 20 20
 
 	./main	5000 500 dynamic
 	./main	5000 500 dynamic search_element 1000

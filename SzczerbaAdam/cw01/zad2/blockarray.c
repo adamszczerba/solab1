@@ -2,20 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 
-char* staticArray[10000];
+#define STATIC_ARR_SIZE 100
+#define STATIC_BLOCK_SIZE 10000
 
 BlockArray* makeArray (int amountOfBlocks, int size, int isStatic){
     BlockArray* toRet = NULL;
+    toRet = (BlockArray *) calloc(1, sizeof(BlockArray));
+
     toRet->blocksAmount = amountOfBlocks;
     toRet->blockSize = size;
 
     if(isStatic==0) {
-        toRet = (BlockArray *) calloc(1, sizeof(BlockArray));
         toRet->blocks = (char **) calloc(amountOfBlocks, sizeof(char *));
         return toRet;
 
     }else{
-        toRet->blocks = staticArray;
+        char staticArr[STATIC_ARR_SIZE][STATIC_BLOCK_SIZE];
+        toRet->blocks = (char**)staticArr;
         return toRet;
     }
 

@@ -75,9 +75,8 @@ void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
         (*optionIndex)++; //kolejnym argumentem jest wartosc do jakiej mamy sie zblizyc
 
         findBlock(thisBlckArr, atoi(argv[*optionIndex]));
-    }
 
-    else if(strcmp(argv[*optionIndex], "remove")){  //2 param: startIndex i amount
+    } else if(strcmp(argv[*optionIndex], "remove")){  //2 param: startIndex i amount
         (*optionIndex)++;
         int startIndx = atoi(argv[*optionIndex]);
 
@@ -85,9 +84,8 @@ void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
         int amountOfBlcks = atoi(argv[*optionIndex]);
 
         removeNumOfBlock(thisBlckArr, amountOfBlcks, startIndx);
-    }
 
-    else if(strcmp(argv[*optionIndex], "add")){ // 1 param: startIndex i amount
+    }  else if(strcmp(argv[*optionIndex], "add")){ // 1 param: startIndex i amount
         (*optionIndex)++;
         int startIndx = atoi(argv[*optionIndex]);
 
@@ -95,9 +93,8 @@ void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
         int amountOfBlcks = atoi(argv[*optionIndex]);
 
         addNumOfBlock(thisBlckArr, amountOfBlcks, startIndx);
-    }
 
-    else if(strcmp(argv[*optionIndex], "remove_and_add")){  // 1 param: start index i amount
+    }  else if(strcmp(argv[*optionIndex], "remove_and_add")){  // 1 param: start index i amount
         (*optionIndex)++;
         int startIndx =atoi(argv[*optionIndex]);
 
@@ -105,17 +102,18 @@ void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
         int amountOfBlcks = atoi(argv[*optionIndex]);
 
         removeAndAddNumOfBlock(thisBlckArr, amountOfBlcks, startIndx);
-    }
 
+    }
     (*optionIndex)++;
+
 }
 
 //zwraca czas w sekundach, najpierw czas poczatkowy
-long calcTimeFrom2TimevalVal( struct timeval t0, struct timeval t1){
+double calcTimeFrom2TimevalVal( struct timeval t0, struct timeval t1){
 
-    long toRet = (t1.tv_sec-t0.tv_sec)*1000000 + t1.tv_usec-t0.tv_usec;
+    double toRet = (t1.tv_sec-t0.tv_sec) + (t1.tv_usec-t0.tv_usec)/1000000.0;
 
-    return toRet/1000000.0;
+    return toRet;
 }
 
 /*
@@ -158,9 +156,9 @@ int main (int argc, char* argv[]){
 
 
 
-    long realTime = calcTimeFrom2TimevalVal(t0, t1);
-    long userTime = calcTimeFrom2TimevalVal(tt0.ru_utime, tt1.ru_utime);
-    long systemTime = calcTimeFrom2TimevalVal(tt0.ru_stime, tt1.ru_stime);
+    double realTime = calcTimeFrom2TimevalVal(t0, t1);
+    double userTime = calcTimeFrom2TimevalVal(tt0.ru_utime, tt1.ru_utime);
+    double systemTime = calcTimeFrom2TimevalVal(tt0.ru_stime, tt1.ru_stime);
 
     // sposoby zalaczania bibliotek
 
@@ -170,7 +168,7 @@ int main (int argc, char* argv[]){
         printf("tablica alokowana dynamicznie\n");
     }
 
-    printf("real time: %ld s, user time: %ld s, system time: %ld s\n",
+    printf("real time: %lf s, user time: %lf s, system time: %lf s\n",
            realTime, userTime, systemTime);
 
 
