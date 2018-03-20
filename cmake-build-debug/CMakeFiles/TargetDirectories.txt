@@ -1,0 +1,3 @@
+/home/adam/CLionProjects/SzczerbaAdam-cw01/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/adam/CLionProjects/SzczerbaAdam-cw01/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/adam/CLionProjects/SzczerbaAdam-cw01/cmake-build-debug/CMakeFiles/SzczerbaAdam_cw01.dir
