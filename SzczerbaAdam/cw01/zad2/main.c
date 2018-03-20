@@ -71,12 +71,12 @@ void removeAndAddNumOfBlock( BlockArray *thisBlckArr, int numberOfBlock, int sta
 
 void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
 
-    if(strcmp(argv[*optionIndex], "search_element")){   //1 param
+    if(!strcmp(argv[*optionIndex], "search_element")){   //1 param
         (*optionIndex)++; //kolejnym argumentem jest wartosc do jakiej mamy sie zblizyc
 
         findBlock(thisBlckArr, atoi(argv[*optionIndex]));
 
-    } else if(strcmp(argv[*optionIndex], "remove")){  //2 param: startIndex i amount
+    } else if(!strcmp(argv[*optionIndex], "remove")){  //2 param: startIndex i amount
         (*optionIndex)++;
         int startIndx = atoi(argv[*optionIndex]);
 
@@ -85,7 +85,7 @@ void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
 
         removeNumOfBlock(thisBlckArr, amountOfBlcks, startIndx);
 
-    }  else if(strcmp(argv[*optionIndex], "add")){ // 1 param: startIndex i amount
+    }  else if(!strcmp(argv[*optionIndex], "add")){ // 1 param: startIndex i amount
         (*optionIndex)++;
         int startIndx = atoi(argv[*optionIndex]);
 
@@ -94,7 +94,7 @@ void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
 
         addNumOfBlock(thisBlckArr, amountOfBlcks, startIndx);
 
-    }  else if(strcmp(argv[*optionIndex], "remove_and_add")){  // 1 param: start index i amount
+    }  else if(!strcmp(argv[*optionIndex], "remove_and_add")){  // 1 param: start index i amount
         (*optionIndex)++;
         int startIndx =atoi(argv[*optionIndex]);
 
@@ -135,6 +135,9 @@ int main (int argc, char* argv[]){
         isStatic = 1;
     }else if(   !(strcmp(alocateKind, "dynamic"))   ){
         isStatic = 0;
+    }else{
+        fprintf(stderr, "Wypierdalać");
+        return -1;
     }
 
     struct rusage tt0, tt1;
@@ -144,7 +147,7 @@ int main (int argc, char* argv[]){
     gettimeofday(&t0, NULL);
 
 
-    BlockArray *thisBlckArr = makeArray(elementAmount, blocksSize, isStatic);
+    BlockArray *thisBlckArr = createTable(elementAmount, blocksSize, isStatic);
 
     int i = 4;
     while(argv[i] != NULL){
