@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char* staticArray[1000];
+char* staticArray[10000];
 
 BlockArray* makeArray (int amountOfBlocks, int size, int isStatic){
     BlockArray* toRet = NULL;

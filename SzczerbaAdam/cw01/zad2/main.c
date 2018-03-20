@@ -70,11 +70,13 @@ void removeAndAddNumOfBlock( BlockArray *thisBlckArr, int numberOfBlock, int sta
 
 
 void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
+
     if(strcmp(argv[*optionIndex], "search_element")){   //1 param
         (*optionIndex)++; //kolejnym argumentem jest wartosc do jakiej mamy sie zblizyc
 
         findBlock(thisBlckArr, atoi(argv[*optionIndex]));
     }
+
     else if(strcmp(argv[*optionIndex], "remove")){  //2 param: startIndex i amount
         (*optionIndex)++;
         int startIndx = atoi(argv[*optionIndex]);
@@ -84,6 +86,7 @@ void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
 
         removeNumOfBlock(thisBlckArr, amountOfBlcks, startIndx);
     }
+
     else if(strcmp(argv[*optionIndex], "add")){ // 1 param: startIndex i amount
         (*optionIndex)++;
         int startIndx = atoi(argv[*optionIndex]);
@@ -93,6 +96,7 @@ void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
 
         addNumOfBlock(thisBlckArr, amountOfBlcks, startIndx);
     }
+
     else if(strcmp(argv[*optionIndex], "remove_and_add")){  // 1 param: start index i amount
         (*optionIndex)++;
         int startIndx =atoi(argv[*optionIndex]);
@@ -102,6 +106,8 @@ void execOption ( BlockArray* thisBlckArr, int* optionIndex, char* argv[]){
 
         removeAndAddNumOfBlock(thisBlckArr, amountOfBlcks, startIndx);
     }
+
+    (*optionIndex)++;
 }
 
 //zwraca czas w sekundach, najpierw czas poczatkowy
@@ -127,9 +133,9 @@ int main (int argc, char* argv[]){
     char* alocateKind = argv[3];
 
     int isStatic;
-    if(!(strcmp(alocateKind, "static"))){ //funkcja zwraca 0 tj "falsz" gdy takie same
+    if( !(strcmp(alocateKind, "static"))    ){
         isStatic = 1;
-    }else if(!(strcmp(alocateKind, "dynamic"))){
+    }else if(   !(strcmp(alocateKind, "dynamic"))   ){
         isStatic = 0;
     }
 
@@ -140,9 +146,8 @@ int main (int argc, char* argv[]){
     gettimeofday(&t0, NULL);
 
 
-    BlockArray *thisBlckArr = makeArray(elementAmount, blocksSize, isStatic); //uwzglednij  argv[3]
+    BlockArray *thisBlckArr = makeArray(elementAmount, blocksSize, isStatic);
 
-    // obsluga polecen
     int i = 4;
     while(argv[i] != NULL){
         execOption(thisBlckArr, &i, argv);

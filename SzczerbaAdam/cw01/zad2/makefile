@@ -10,16 +10,19 @@ shared:
 	$(CC) -Wall -c -fPIC blockarray.c
 	$(CC) -Wall -shared -fPIC -o blockarray.so blockarray.o
 
+
+
 staticVersion:
 	make static
+	$(CC) -Wall -c main.c
 	$(CC) -Wall -o main main.c blockarray.a -I.
-	make tests
+	make test
 
 sharedVersion:
 	make shared
+	$(CC) -Wall -c main.c
 	$(CC) -Wall -o main main.c -L. blockarray.so -I.
-	make tests
-
+	make test
 
 
 test:
