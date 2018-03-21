@@ -2,16 +2,54 @@
 // Created by adam on 17.03.18.
 //
 
-#include "blockarray.h"
 #include <string.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 #include <sys/time.h>
 #include <sys/resource.h>
+
+#include "blockarray.h"
+
+#ifdef DYNAMIC
+#include <dlfcn.h>
+
+void* handle;
+
+BlockArray *(*makeArray)(int amountOfBlocks, int size, int isStatic);
+void (*deleteArray) (BlockArray *blckArray);
+void (*addBlock) (BlockArray *blckArray, int indxOfBlck, char* blck);
+void  (*deleteBlock) (BlockArray *blckArray, int indxOfBlck);
+char* (*findBlock) (BlockArray *blckArray, int num);
+
+#endif
+
+void closeLib(){
+#ifdef DYNAMIC
+    dlclose(handle);
+#endif
+}
+
+void loadLib(){
+#ifdef DYNAMIC
+    handle = dlopen("./libblockarray.so", RTLD_LAZY);
+    dlerror();
+
+    makeArray = dlsym(handle,"makeArray");
+    deleteArray = dlsym(handle,"deleteArray");
+    addBlock = dlsym(handle,"addBlock");
+    deleteBlock = dlsym(handle,"deleteBlock");
+    findBlock = dlsym(handle,"findBlock");
+
+#endif
+}
+
+
+//void* dlopen(const char *filename, int flag);
+//void* dlsym(void *handle, char *symbol);
+//void dlclose();
 
 
 //done
@@ -126,6 +164,8 @@ int main (int argc, char* argv[]){
 
     srand(time(NULL));
 
+    loadLib();
+
     int elementAmount = atoi(argv[1]);
     int blocksSize = atoi(argv[2]);
     char* alocateKind = argv[3];
@@ -136,7 +176,8 @@ int main (int argc, char* argv[]){
     }else if(   !(strcmp(alocateKind, "dynamic"))   ){
         isStatic = 0;
     }else{
-        fprintf(stderr, "Wypierdalać");
+        fprintf(stderr, "undefined type of allocation\n");
+        closeLib();
         return -1;
     }
 
@@ -179,6 +220,8 @@ int main (int argc, char* argv[]){
     printf("real time: %lf s, user time: %lf s, system time: %lf s\n",
            realTime, userTime, systemTime);
     printf("\n");
+
+    closeLib();
 
     return 0;
 

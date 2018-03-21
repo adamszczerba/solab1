@@ -11,9 +11,6 @@ typedef struct BlockArrayStruct {
 
 #ifndef DYNAMIC
 
-
-chuj
-
 BlockArray *makeArray(int amountOfBlocks, int size, int isStatic);
 //tworzenie nowej tablicy
 

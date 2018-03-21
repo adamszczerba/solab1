@@ -1,0 +1,99 @@
+BIBLIOTEKA STATYCZNA
+tablica alokowana statycznie
+./main-static 75 5000 static 
+real time: 0.006850 s, user time: 0.006851 s, system time: 0.000000 s
+
+tablica alokowana statycznie
+./main-static 75 5000 static search_element 1000 
+real time: 0.007384 s, user time: 0.007384 s, system time: 0.000000 s
+
+tablica alokowana statycznie
+./main-static 75 5000 static remove 50 25 add 50 25 
+real time: 0.006886 s, user time: 0.006777 s, system time: 0.000000 s
+
+tablica alokowana statycznie
+./main-static 75 5000 static remove_and_add 20 20 
+real time: 0.005500 s, user time: 0.003024 s, system time: 0.002477 s
+
+tablica alokowana dynamicznie
+./main-static 75 5000 dynamic 
+real time: 0.004657 s, user time: 0.004649 s, system time: 0.000000 s
+
+tablica alokowana dynamicznie
+./main-static 75 5000 dynamic search_element 1000 
+real time: 0.008283 s, user time: 0.008271 s, system time: 0.000000 s
+
+tablica alokowana dynamicznie
+./main-static 75 5000 dynamic remove 50 25 add 50 25 
+real time: 0.005921 s, user time: 0.005921 s, system time: 0.000000 s
+
+tablica alokowana dynamicznie
+./main-static 75 5000 dynamic remove_and_add 20 20 
+real time: 0.005165 s, user time: 0.005158 s, system time: 0.000000 s
+
+BIBLIOTEKA DZIELONA
+tablica alokowana statycznie
+./main-shared 75 5000 static 
+real time: 0.009803 s, user time: 0.009804 s, system time: 0.000000 s
+
+tablica alokowana statycznie
+./main-shared 75 5000 static search_element 1000 
+real time: 0.006346 s, user time: 0.006322 s, system time: 0.000000 s
+
+tablica alokowana statycznie
+./main-shared 75 5000 static remove 50 25 add 50 25 
+real time: 0.007703 s, user time: 0.005461 s, system time: 0.002197 s
+
+tablica alokowana statycznie
+./main-shared 75 5000 static remove_and_add 20 20 
+real time: 0.004368 s, user time: 0.004369 s, system time: 0.000000 s
+
+tablica alokowana dynamicznie
+./main-shared 75 5000 dynamic 
+real time: 0.005339 s, user time: 0.005338 s, system time: 0.000000 s
+
+tablica alokowana dynamicznie
+./main-shared 75 5000 dynamic search_element 1000 
+real time: 0.005770 s, user time: 0.005770 s, system time: 0.000000 s
+
+tablica alokowana dynamicznie
+./main-shared 75 5000 dynamic remove 50 25 add 50 25 
+real time: 0.005020 s, user time: 0.004944 s, system time: 0.000000 s
+
+tablica alokowana dynamicznie
+./main-shared 75 5000 dynamic remove_and_add 20 20 
+real time: 0.005273 s, user time: 0.005274 s, system time: 0.000000 s
+
+BIBLIOTEKA LADOWANA DYNAMICZNIE
+tablica alokowana statycznie
+./main-dyn 75 5000 static 
+real time: 0.005411 s, user time: 0.005383 s, system time: 0.000000 s
+
+tablica alokowana statycznie
+./main-dyn 75 5000 static search_element 1000 
+real time: 0.006640 s, user time: 0.003037 s, system time: 0.003596 s
+
+tablica alokowana statycznie
+./main-dyn 75 5000 static remove 50 25 add 50 25 
+real time: 0.004318 s, user time: 0.004313 s, system time: 0.000000 s
+
+tablica alokowana statycznie
+./main-dyn 75 5000 static remove_and_add 20 20 
+real time: 0.004154 s, user time: 0.004154 s, system time: 0.000000 s
+
+tablica alokowana dynamicznie
+./main-dyn 75 5000 dynamic 
+real time: 0.005487 s, user time: 0.005402 s, system time: 0.000000 s
+
+tablica alokowana dynamicznie
+./main-dyn 75 5000 dynamic search_element 1000 
+real time: 0.007271 s, user time: 0.007259 s, system time: 0.000000 s
+
+tablica alokowana dynamicznie
+./main-dyn 75 5000 dynamic remove 50 25 add 50 25 
+real time: 0.004449 s, user time: 0.004451 s, system time: 0.000000 s
+
+tablica alokowana dynamicznie
+./main-dyn 75 5000 dynamic remove_and_add 20 20 
+real time: 0.004759 s, user time: 0.004760 s, system time: 0.000000 s
+
